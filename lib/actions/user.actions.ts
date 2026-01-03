@@ -5,8 +5,8 @@ import { appwriteConfig } from "@/lib/appwrite/config";
 import { Query, ID } from "node-appwrite";
 import { parseStringify } from "@/lib/utils";
 import { cookies } from "next/headers";
-//import { avatarPlaceholderUrl } from "@/constants";
 import { redirect } from "next/navigation";
+import { avatarPlaceholderUrl } from "@/constants";
 
 const getUserByEmail = async (email: string) => {
   const { databases } = await createAdminClient();
@@ -85,8 +85,7 @@ export const createAccount = async ({
       {
         fullName,
         email,
-        // avatar:
-        //   "https://www.google.com/url?sa=t&source=web&rct=j&url=https%3A%2F%2Fpixabay.com%2Fvectors%2Favatar-icon-placeholder-facebook-1577909%2F&ved=0CBUQjRxqFwoTCIils-_17JEDFQAAAAAdAAAAABAH&opi=89978449",
+        avatar: avatarPlaceholderUrl,
         accountId,
       },
     );
