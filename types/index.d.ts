@@ -1,4 +1,20 @@
 /* eslint-disable no-unused-vars */
+import { Models } from "node-appwrite";
+
+export interface FileDocument extends Models.Document {
+  name: string;
+  url: string;
+  type: string;
+  extension: string;
+  size: number;
+  bucketFileId: string;
+  users: string[];
+  owner: {
+    id: string;
+    fullName: string;
+    email: string;
+  };
+}
 
 declare type FileType = "document" | "image" | "video" | "audio" | "other";
 
