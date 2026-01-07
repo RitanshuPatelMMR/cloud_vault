@@ -140,6 +140,7 @@ export const getCurrentUser = async () => {
     return parseStringify(user.documents[0]);
   } catch (error) {
     console.log(error);
+    return null;
   }
 };
 
@@ -160,7 +161,6 @@ export const signInUser = async ({ email }: { email: string }) => {
   try {
     const existingUser = await getUserByEmail(email);
 
-    // User NOT found
     if (!existingUser) {
       return parseStringify({
         accountId: null,
@@ -168,7 +168,6 @@ export const signInUser = async ({ email }: { email: string }) => {
       });
     }
 
-    // Send OTP to existing user's email
     await sendEmailOTPForSignIn({ email });
 
     return parseStringify({ accountId: existingUser.accountId });

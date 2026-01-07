@@ -1,17 +1,20 @@
-import React from "react";
-// import Sort from "@/components/Sort";
-import { getFiles } from "@/lib/actions/file.actions";
-import { Models } from "node-appwrite";
+import Sort from "@/components/Sort";
 import Card from "@/components/Card";
+import { getFiles } from "@/lib/actions/file.actions";
 import { getFileTypesParams } from "@/lib/utils";
+import { FileType, FileDocument } from "@/types";
 
-const Page = async ({ searchParams, params }: SearchParamProps) => {
-  const type = ((await params)?.type as string) || "";
-  const searchText = ((await searchParams)?.query as string) || "";
-  const sort = ((await searchParams)?.sort as string) || "";
+interface PageProps {
+  params?: { type?: string };
+  searchParams?: { query?: string; sort?: string };
+}
+
+const Page = async ({ params, searchParams }: PageProps) => {
+  const type = params?.type ?? "";
+  const searchText = searchParams?.query ?? "";
+  const sort = searchParams?.sort ?? "";
 
   const types = getFileTypesParams(type) as FileType[];
-
   const files = await getFiles({ types, searchText, sort });
 
   return (
@@ -26,16 +29,14 @@ const Page = async ({ searchParams, params }: SearchParamProps) => {
 
           <div className="sort-container">
             <p className="body-1 hidden text-light-200 sm:block">Sort by:</p>
-
-            {/*<Sort />*/}
+            <Sort />
           </div>
         </div>
       </section>
 
-      {/* Render the files */}
-      {files.total > 0 ? (
+      {files?.total > 0 ? (
         <section className="file-list">
-          {files.documents.map((file: Models.Document) => (
+          {files.documents.map((file: FileDocument) => (
             <Card key={file.$id} file={file} />
           ))}
         </section>
